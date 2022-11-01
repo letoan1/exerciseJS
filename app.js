@@ -44,7 +44,7 @@ const students = [
 
 const getNameStudent = students.map(element => element.name);
 const getStudentOver25 = students.filter(element => element.age > 25);
-const getStudentOver25AndGood = students.filter(element => element.age > 25 && element.type === "EXCELLENT");
+const getStudentOver25AndGood = students.filter(element => element.age < 25 && element.type === "EXCELLENT");
 const totalMoney = students.reduce((total, student) => total + student.balance, 0)
 const totalMoneyOfAgeOver25 = getStudentOver25.reduce((total, student) => total + student.balance, 0)
 const showNameStudent = [...getNameStudent].join('-')
