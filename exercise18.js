@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+const fs = require('fs');
 
 const validate = (obj) => {
   if(dataStudents.some(student => student.id === obj.id)) {
@@ -29,22 +29,24 @@ const validate = (obj) => {
 };
 
 const create = (obj) => {
-    if (!validate(obj)) return;
-    dataStudents.push(obj);
+	if(!validate(obj)) return
+	dataStudents.push(obj)
+}
 
-};
-
-const update = (id, obj) => {
-    if (!validate(obj)) return;
-    dataStudents[dataStudents.findIndex((student) => student.id === id)] = obj;
-};
+const update = (obj, id) => {
+	if(!validate(obj)) return
+	const studentUpdate = dataStudents[dataStudents.findIndex((student) => student.id === id)] = obj;
+	return studentUpdate
+}
 
 const deleteStudent = (id) => {
-  dataStudents = dataStudents.filter((student) => student.id !== id);
-};
+	const removeStudents = dataStudents.filter(student => student.id !== id)
+	return removeStudents
+}
 
 const findById = (id) => {
-  return dataStudents.find((student) => student.id === id);
+	const findStudents = dataStudents.find((student) => student.id === id);
+	return findStudents
 };
 
 const findAll = (type, page, size) => {
@@ -70,6 +72,19 @@ const findAll = (type, page, size) => {
 	}
 }
 
+
 const dataStudents = JSON.parse(fs.readFileSync("./students.json"));
+
+
+const createStudent = create({
+	id: 8,
+	name: "Hoang hoang",
+	age: 27,
+	subjects: ["math", "physic", "chemistry"],
+	type: "AVERAGE",
+	balance: 7000,
+})
+
+console.log(dataStudents);
 
 fs.writeFileSync("./students.json", JSON.stringify(dataStudents));
