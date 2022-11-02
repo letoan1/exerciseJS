@@ -55,7 +55,7 @@
       "physic",
       "chemistry"
     ],
-    "type": " AVERAGE",
+    "type": "AVERAGE",
     "balance": 7000
   },
   {
