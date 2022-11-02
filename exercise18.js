@@ -30,23 +30,25 @@ const validate = (obj) => {
 }
 
 const create = (obj) => {
-	if(students.some(student => student.id === obj.id)) {
+	if(idAlreadyExists(obj.id)) {
 		console.log('ID must be unique !')
 		return
 	}
 
 	if(!validate(obj)) return
 	students.push(obj)
+    fs.writeFileSync("./students.json", JSON.stringify(students, null, 2));
 }
 
 const update = (id, obj) => {
-	if(!validate(obj)) return
 	if (!idAlreadyExists(id)) {
 		console.log("ID does not exist");
 		return;
 	}
+	if(!validate(obj)) return
 	const findIndexStudent = students.findIndex((student) => student.id === id)
 	const studentUpdate = students[findIndexStudent] = obj;
+    fs.writeFileSync("./students.json", JSON.stringify(students, null, 2));
 	return studentUpdate
 }
 
@@ -56,6 +58,7 @@ const deleteStudent = (id) => {
 		return;
 	  }
 	const removeStudents = students.filter(student => student.id !== id)
+    fs.writeFileSync("./students.json", JSON.stringify(students, null, 2));
 	return removeStudents
 }
 
@@ -89,22 +92,26 @@ const findAll = (type, page, size) => {
 		default:
 			throw new Error('Invalid' + type)
 	}
-
 }
 
+const students = JSON.parse(fs.readFileSync("./students.json"));
 
-const dataStudents = JSON.parse(fs.readFileSync("./students.json"));
-
-
-const createStudent = create({
+update(6,{
     id: 6,
-    name: "Thư",
+    name: "Thư Hoàng",
     age: 27,
     subjects: ["math", "physic", "chemistry"],
     type: "AVERAGE",
     balance: 7000,
 })
 
-console.log(dataStudents);
+create({
+    id: 7,
+    name: "Lan",
+    age: 19,
+    subjects: ["math", "physic", "chemistry"],
+    type: "GOOD",
+    balance: 10000,
+})
 
-fs.writeFileSync("./students.json", JSON.stringify(dataStudents));
+console.log(students);

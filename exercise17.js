@@ -31,7 +31,7 @@ const validate = (obj) => {
 }
 
 const create = (obj) => {
-	if(students.some(student => student.id === obj.id)) {
+	if(idAlreadyExists(obj.id)) {
 		console.log('ID must be unique !')
 		return
 	}
@@ -41,11 +41,11 @@ const create = (obj) => {
 }
 
 const update = (id, obj) => {
-	if(!validate(obj)) return
 	if (!idAlreadyExists(id)) {
 		console.log("ID does not exist");
 		return;
 	}
+	if(!validate(obj)) return
 	const findIndexStudent = students.findIndex((student) => student.id === id)
 	const studentUpdate = students[findIndexStudent] = obj;
 	return studentUpdate
@@ -76,21 +76,19 @@ const findAll = (type, page, size) => {
 	}
 
 	const startIndex = page * size - size
-	const paginationStudent = [...students.slice(startIndex, startIndex + size)]
 
 	switch (type) {
 		case '':
-			return paginationStudent
+			 return students
 		case 'EXCELLENT':
-			return paginationStudent.filter(student => student.type === 'EXCELLENT');
+			 return students.filter(student => student.type === 'EXCELLENT').slice(startIndex, startIndex + size);
 		case 'GOOD':
-			return paginationStudent.filter(student => student.type === 'GOOD');
+			 return students.filter(student => student.type === 'GOOD').slice(startIndex, startIndex + size);
 		case 'AVERAGE':
-			return paginationStudent.filter(student => student.type === 'AVERAGE');
+			 return students.filter(student => student.type === 'AVERAGE').slice(startIndex, startIndex + size);
 		default:
 			throw new Error('Invalid' + type)
 	}
-
 }
 
 create({
@@ -117,6 +115,15 @@ create({
 	age: 30,
 	subjects: ["math", "physic", "chemistry"],
 	type: "GOOD",
+
+	balance: 10000,
+})
+create({
+	id: 9,
+	name: "Lan Anh",
+	age: 30,
+	subjects: ["math", "physic", "chemistry"],
+	type: "EXCELLENT",
 	balance: 10000,
 })
 
@@ -132,7 +139,7 @@ update(7, {
 findById(4)
 deleteStudent(5)
 
-const all = findAll('EXCELLENT',1,3)
+const all = findAll('GOOD',1,3)
 console.log(all);
 
 console.log(students)
