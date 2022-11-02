@@ -1,12 +1,13 @@
 
-import dataStudents from './data.js'
+import students from './data.js'
+
+const types = ['EXCELLENT', 'GOOD', 'AVERAGE']
+
+const idAlreadyExists = (id) => {
+	return students.some((student) => student.id === id);
+};
 
 const validate = (obj) => {
-	if(dataStudents.some(student => student.id === obj.id)) {
-		console.log('ID must be unique !')
-		return false
-	}
-
 	if(obj.name.length < 3) {
 		console.log('Name is too short, at least 3 characters !')
 		return false
@@ -17,7 +18,7 @@ const validate = (obj) => {
 		return false
 	}
 
-	if(!['EXCELLENT', 'GOOD', 'AVERAGE'].includes(obj.type)) {
+	if(!types.includes(obj.type)) {
 		console.log('Type must be EXCELLENT, GOOD or AVERAGE')
 		return false
 	}
@@ -30,34 +31,52 @@ const validate = (obj) => {
 }
 
 const create = (obj) => {
+	if(students.some(student => student.id === obj.id)) {
+		console.log('ID must be unique !')
+		return
+	}
+
 	if(!validate(obj)) return
-	dataStudents.push(obj)
+	students.push(obj)
 }
 
-const update = (obj, id) => {
+const update = (id, obj) => {
 	if(!validate(obj)) return
-	const studentUpdate = dataStudents[dataStudents.findIndex((student) => student.id === id)] = obj;
+	if (!idAlreadyExists(id)) {
+		console.log("ID does not exist");
+		return;
+	}
+	const findIndexStudent = students.findIndex((student) => student.id === id)
+	const studentUpdate = students[findIndexStudent] = obj;
 	return studentUpdate
 }
 
 const deleteStudent = (id) => {
-	const removeStudents = dataStudents.filter(student => student.id !== id)
+	if (!idAlreadyExists(id)) {
+		console.log("ID does not exist");
+		return;
+	  }
+	const removeStudents = students.filter(student => student.id !== id)
 	return removeStudents
 }
 
 const findById = (id) => {
-	const findStudents = dataStudents.find((student) => student.id === id);
+	if (!idAlreadyExists(id)) {
+		console.log("ID does not exist");
+		return;
+	  }
+	const findStudents = students.find((student) => student.id === id);
 	return findStudents
 };
 
 const findAll = (type, page, size) => {
-	if(page <= 0 || size <= 0) {
-		console.log('Page and size must be greater than 0');
+	if(+page <= 0 || +size <= 0) {
+		console.log('Page and size must be numerical and greater than 0');
 		return false
 	}
 
 	const startIndex = page * size - size
-	const paginationStudent = [...dataStudents.slice(startIndex, startIndex + size)]
+	const paginationStudent = [...students.slice(startIndex, startIndex + size)]
 
 	switch (type) {
 		case '':
@@ -71,31 +90,49 @@ const findAll = (type, page, size) => {
 		default:
 			throw new Error('Invalid' + type)
 	}
+
 }
 
 create({
 	id: 6,
-	name: "Hihih",
-	age: 26,
-	subjects: ["math", "physic", "chemistry"],
-	type: "GOOD",
+	name: "Hung",
+	age: 18,
+	subjects: ["math",  "chemistry"],
+	type: "EXCELLENT",
 	balance: 10000,
 })
 
 create({
 	id: 7,
-	name: "Hihih",
-	age: 26,
+	name: "Thu",
+	age: 30,
 	subjects: ["math", "physic", "chemistry"],
 	type: "AVERAGE",
 	balance: 10000,
 })
 
+create({
+	id: 8,
+	name: "Lan",
+	age: 30,
+	subjects: ["math", "physic", "chemistry"],
+	type: "GOOD",
+	balance: 10000,
+})
+
+update(7, {
+	id: 7,
+	name: "Thư",
+	age: 30,
+	subjects: ["math", "physic", "chemistry"],
+	type: "AVERAGE",
+	balance: 10000,
+})
 
 findById(4)
 deleteStudent(5)
 
-const all = findAll('GOOD',1,3)
+const all = findAll('EXCELLENT',1,3)
 console.log(all);
 
-console.log(dataStudents)
+console.log(students)

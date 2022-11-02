@@ -1,22 +1,22 @@
-import dataStudents from './data.js'
+import students from './data.js'
 
 
-const getNameStudent = dataStudents.map(element => element.name);
-const getStudentOver25 = dataStudents.filter(element => element.age > 25);
-const getStudentOver25AndGood = dataStudents.filter(element => element.age < 25 && element.type === "EXCELLENT");
-const totalMoney = dataStudents.reduce((total, student) => total + student.balance, 0)
-const totalMoneyOfAgeOver25 = getStudentOver25.reduce((total, student) => total + student.balance, 0)
-const showNameStudent = [...getNameStudent].join('-')
-const getGoodAndJoinMathStudent = dataStudents.filter(element => element.type === "EXCELLENT" && element.subjects.includes('math'))
-const isEveryStudentGood = dataStudents.every(element => element.type === "EXCELLENT")
-const isExistGoodStudent = dataStudents.includes(element => element.type === "GOOD")
+const nameStudent = students.map(element => element.name);
+const studentOver25 = students.filter(element => element.age > 25);
+const studentBelow25AndGood = students.filter(element => element.age < 25 && element.type === "EXCELLENT");
+const totalMoney = students.reduce((total, student) => total + student.balance, 0)
+const totalMoneyOfAgeOver25 = studentOver25.reduce((total, student) => total + student.balance, 0)
+const showNameStudent = [...nameStudent].join('-')
+const goodAndJoinMathStudent = students.filter(element => element.type === "EXCELLENT" && element.subjects.includes('math'))
+const isEveryStudentGood = students.every(element => element.type === "EXCELLENT")
+const isExistGoodStudent = students.includes(element => element.type === "GOOD")
 
-console.log(getNameStudent)
-console.log(getStudentOver25);
-console.log(getStudentOver25AndGood);
+console.log(nameStudent)
+console.log(studentOver25);
+console.log(studentBelow25AndGood);
 console.log(totalMoney);
 console.log(totalMoneyOfAgeOver25);
 console.log(showNameStudent);
-console.log(getGoodAndJoinMathStudent);
+console.log(goodAndJoinMathStudent);
 console.log(isEveryStudentGood);
 console.log(isExistGoodStudent);

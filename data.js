@@ -1,4 +1,4 @@
-const dataStudents = [
+const students = [
 	{
 	  id: 1,
 	  name: "Thao",
@@ -41,4 +41,4 @@ const dataStudents = [
 	  },
   ];
 
-  export default dataStudents
+  export default students
