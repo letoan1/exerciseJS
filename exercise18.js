@@ -78,17 +78,16 @@ const findAll = (type, page, size) => {
 	}
 
 	const startIndex = page * size - size
-	const paginationStudent = [...students.slice(startIndex, startIndex + size)]
 
 	switch (type) {
 		case '':
 			return paginationStudent
 		case 'EXCELLENT':
-			return paginationStudent.filter(student => student.type === 'EXCELLENT');
+			return paginationStudent.filter(student => student.type === 'EXCELLENT').slice(startIndex, startIndex + size);
 		case 'GOOD':
-			return paginationStudent.filter(student => student.type === 'GOOD');
+			return paginationStudent.filter(student => student.type === 'GOOD').slice(startIndex, startIndex + size);
 		case 'AVERAGE':
-			return paginationStudent.filter(student => student.type === 'AVERAGE');
+			return paginationStudent.filter(student => student.type === 'AVERAGE').slice(startIndex, startIndex + size);
 		default:
 			throw new Error('Invalid' + type)
 	}
